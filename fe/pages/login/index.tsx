@@ -1,8 +1,8 @@
 import LoginForm from "@/components/login/LoginForm";
 export default function Login() {
   return (
-    <>
+    <div className="flex items-center justify-center bg-white w-[30rem]">
       <LoginForm />
-    </>
+    </div>
   );
 }
