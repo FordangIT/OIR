@@ -1,7 +1,9 @@
+import Image from "next/image";
 import LoginForm from "@/components/login/LoginForm";
 export default function Login() {
   return (
-    <div className="flex items-center justify-center bg-white w-[30rem]">
+    <div className="flex flex-col items-center justify-center bg-white w-[30rem]">
+      <Image src="/images/logo.jpeg" alt="oir 로고" width={300} height={200} />
       <LoginForm />
     </div>
   );

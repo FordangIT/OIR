@@ -35,10 +35,10 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-96 min-h-screen flex flex-col justify-center items-center"
+      className="w-96 flex flex-col justify-center items-center"
     >
       <div className="w-60">
-        <div className="my-10 w-full">
+        <div className="mb-10 w-full">
           <div>
             <label></label>
             <input
