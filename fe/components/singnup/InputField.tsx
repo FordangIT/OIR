@@ -21,8 +21,8 @@ export const InputField = ({
   onChange,
   isRequired = false
 }: InputFieldProps) => (
-  <div className="flex  flex-row w-full h-12 justify-center items-center ">
-    <label className="basis-1/4 flex items-center justify-center text-gray-700 w-8 h-8 m-3">
+  <div className="flex flex-row w-full h-12 justify-center items-center ">
+    <label className="flex items-center justify-center text-gray-700 w-8 h-8 m-5">
       {icon}
     </label>
     <input
@@ -33,7 +33,7 @@ export const InputField = ({
       onChange={onChange}
       placeholder={placeholder}
       required={isRequired}
-      className="basis-3/4 mr-5 focus:border focus:border-main-green hover:border-main-green focus:outline-none text-center"
+      className="w-full h-full focus:border focus:border-main-green focus:outline-none text-center transition duration-300 ease-in-out"
       maxLength={20}
     />
   </div>
