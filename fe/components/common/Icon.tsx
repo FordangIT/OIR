@@ -5,6 +5,9 @@ import { IoIosSchool } from "react-icons/io";
 import { PiFinnTheHumanFill } from "react-icons/pi";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FiUsers } from "react-icons/fi";
+import { BsSendPlusFill } from "react-icons/bs";
+import { TbMessage2Heart } from "react-icons/tb";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
 
 interface IconProps {
   name: string;
@@ -18,7 +21,10 @@ const iconsMap: { [key: string]: IconType } = {
   userid: CiUser,
   password: RiLockPasswordFill,
   repassword: RiLockPasswordFill,
-  nickname: PiFinnTheHumanFill
+  nickname: PiFinnTheHumanFill,
+  send: BsSendPlusFill,
+  message: TbMessage2Heart,
+  money: RiMoneyDollarCircleFill
 };
 
 const Icon = ({ name, className }: IconProps) => {
