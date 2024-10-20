@@ -1,0 +1,16 @@
+import SignUpForm from "@/components/singnup/SignUpForm";
+import Image from "next/image";
+export default function SignUp() {
+  return (
+    <div className="flex flex-col items-center justify-center bg-white w-[30rem]">
+      <Image
+        src="/images/text_logo.jpeg"
+        alt="oir 로고"
+        width={300}
+        height={200}
+        className="my-5"
+      />
+      <SignUpForm />
+    </div>
+  );
+}
