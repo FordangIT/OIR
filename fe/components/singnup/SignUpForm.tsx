@@ -40,7 +40,7 @@ export default function SignUpForm() {
   };
   return (
     <form
-      className="flex flex-col justify-center items-center min-h-screen"
+      className="flex flex-col justify-center items-center"
       onSubmit={handleSubmit}
     >
       <div className="grid grid-cols-1 divide-y-2 my-3 border-2 border-gray-200 rounded-md">
