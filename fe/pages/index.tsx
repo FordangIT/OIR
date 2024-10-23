@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import Icon from "@/components/common/Icon";
 import TextInfo from "@/components/common/TextInfo";
 export default function Home() {
@@ -22,19 +21,10 @@ export default function Home() {
 
         <Link href="/points">
           <div className="main-icon-wrapper group">
-            <Image
-              src="/images/main.jpeg"
-              alt="충전소"
-              width={45}
-              height={55}
-              className="rounded-md"
-            />
-            <TextInfo text="충전" />
+            <Icon name="money" className="icon-base text-yellow-400 " />
+            <TextInfo text="points" />
           </div>
         </Link>
-        <div className="w-12 h-12">
-          <Icon name="money" className="icon-base text-yellow-400 " />
-        </div>
       </div>
     </div>
   );
