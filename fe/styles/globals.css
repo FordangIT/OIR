@@ -22,4 +22,12 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  .main-icon-wrapper {
+    @apply relative w-12 h-12;
+  }
+
+  .icon-base {
+    @apply w-full h-full p-1 bg-white rounded-md;
+  }
 }
