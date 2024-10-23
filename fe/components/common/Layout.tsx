@@ -7,7 +7,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
-      <div className="flex justify-center min-h-screen bg-white">
+      <div className="flex justify-center items-center min-h-screen w-full sm:w-[30rem] bg-white">
         {children}
       </div>
     </>

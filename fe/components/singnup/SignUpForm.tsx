@@ -109,7 +109,7 @@ export default function SignUpForm() {
 
       <button
         type="submit"
-        className="w-full h-12 bg-main-orange font-semibold text-white rounded-md text-lg my-5"
+        className="w-full h-12 bg-main-orange font-semibold text-white rounded-md text-md"
       >
         승인 요청
       </button>

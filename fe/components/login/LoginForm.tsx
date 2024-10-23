@@ -38,7 +38,7 @@ export default function LoginForm() {
       className="w-96 flex flex-col justify-center items-center"
     >
       <div className="w-60">
-        <div className="mb-10 w-full">
+        <div className="my-10 w-full">
           <div>
             <label></label>
             <input
