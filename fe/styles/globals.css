@@ -30,4 +30,11 @@ body {
   .icon-base {
     @apply w-full h-full p-1 bg-white rounded-md;
   }
+  .row-position {
+    @apply flex justify-center items-center;
+  }
+
+  .col-position {
+    @apply flex flex-col justify-center items-center;
+  }
 }
