@@ -3,7 +3,7 @@ import Icon from "@/components/common/Icon";
 import TextInfo from "./TextInfo";
 export default function Nav() {
   return (
-    <div className="fixed bottom-0 left-0 w-full h-16 flex justify-around items-center">
+    <div className="w-full flex justify-around items-center">
       <Link href="/send">
         <div className="main-icon-wrapper group">
           <Icon name="send" className="icon-base" />
