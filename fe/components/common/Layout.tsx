@@ -14,9 +14,9 @@ export default function Layout({ children }: LayoutProps) {
   const shouldHideLogoAndNav = hideForPaths.includes(router.pathname);
 
   return (
-    <div className="h-screen w-full col-position ">
+    <div className="flex flex-col h-screen w-full mx-10">
       {!shouldHideLogoAndNav && (
-        <header className="fixed top-0 left-0 w-full h-[9vh] row-position bg-white z-10">
+        <header className="w-full h-20 row-position bg-white z-10">
           <Image
             src="/images/text_logo3.jpeg"
             alt="OIR 메인 로고"
@@ -25,10 +25,10 @@ export default function Layout({ children }: LayoutProps) {
           />
         </header>
       )}
-      <main className="overflow-y-auto w-full mt-[10vh] mb-[8vh]">
-        <div className="w-full sm:w-[30rem] bg-white ">{children}</div>
+      <main className="flex-1 w-full h-screen overflow-y-auto">
+        <div className="w-full sm:w-[30rem] bg-white h-full">{children}</div>
       </main>
-      <nav className="fixed bottom-0 left-0 w-full h-[8vh] bg-white row-position z-10">
+      <nav className="w-full h-16 bg-white row-position z-10">
         {!shouldHideLogoAndNav && <Nav />}
       </nav>
     </div>
