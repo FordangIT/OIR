@@ -1,63 +1,48 @@
 import truncate from "@/lib/utils/truncate";
-import Link from "next/link";
-const data = [
-  { messageId: 1, content: "첫번째 메시지" },
-  {
-    messageId: 2,
-    content: "hi2 내가 널 많이 좋아하게 됐어. 이걸 말해도될까? "
-  },
-  { messageId: 3, content: "hi3" },
-  { messageId: 4, content: "hi1" },
-  {
-    messageId: 5,
-    content: "hi2 내가 널 많이 좋아하게 됐어. 이걸 말해도될까? "
-  },
-  { messageId: 6, content: "hi3" },
-  { messageId: 7, content: "hi1" },
-  {
-    messageId: 8,
-    content: "hi2 내가 널 많이 좋아하게 됐어. 이걸 말해도될까? "
-  },
-  { messageId: 9, content: "hi3" },
-  { messageId: 10, content: "hi1" },
-  {
-    messageId: 11,
-    content: "hi2 내가 널 많이 좋아하게 됐어. 이걸 말해도될까? "
-  },
-  { messageId: 12, content: "hi3" },
-  { messageId: 13, content: "hi1" },
-  {
-    messageId: 14,
-    content: "hi2 내가 널 많이 좋아하게 됐어. 이걸 말해도될까? "
-  },
-  { messageId: 15, content: "hi3" },
-  { messageId: 16, content: "hi1" },
-  {
-    messageId: 17,
-    content: "hi2 내가 널 많이 좋아하게 됐어. 이걸 말해도될까? "
-  },
-  { messageId: 18, content: "hi3" },
-  { messageId: 19, content: "hi1" },
-  {
-    messageId: 20,
-    content: "hi2 내가 널 많이 좋아하게 됐어. 이걸 말해도될까? "
-  },
-  { messageId: 21, content: "hi3" },
-  { messageId: 22, content: "hi1" },
-  {
-    messageId: 23,
-    content: "마지막 메시지"
-  }
-];
+import { getUserMessage } from "@/lib/api/inbox";
+import { useQuery } from "react-query";
+import { useRouter } from "next/router";
+interface Message {
+  messageId: string;
+  content: string;
+}
+
 export default function InboxList() {
+  const router = useRouter();
+  const { userId } = router.query;
+
+  const { data, error, isLoading, isError } = useQuery(
+    ["userMessages"],
+    () => getUserMessage(userId as string),
+    {
+      enabled: typeof userId === "string" // userId가 있을 때만 쿼리 활성화
+    }
+  );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError || !data?.success) {
+    return (
+      <div>
+        {error instanceof Error
+          ? error.message
+          : "메시지를 가져오는 중 오류가 발생했습니다. "}
+      </div>
+    );
+  }
+
+  const messages: Message[] = data.data;
   return (
-    <div className="w-full min-h-screen grid grid-cols-1 divide-y-2 border-2">
-      {data.map((el) => (
-        <Link href={`/inbox/${el.messageId}`} key={el.messageId}>
-          <div className="w-full h-10 flex justify-start items-center text-justify hover:shadow-xl">
-            <div>{truncate(el.content)}</div>
-          </div>
-        </Link>
+    <div className="bg-red-400">
+      {messages.map((el) => (
+        <div
+          key={el.messageId}
+          className="w-full h-fit flex justify-start items-center text-justify hover:shadow-xl py-3"
+        >
+          <div>{truncate(el.content)}</div>
+        </div>
       ))}
     </div>
   );
