@@ -21,7 +21,7 @@ export async function updateUserPoints(point: number) {
       "Content-Type": "application/json"
     },
     credentials: "include",
-    body: JSON.stringify({ point })
+    body: JSON.stringify({ point: point })
   });
 
   const result = await res.json();
