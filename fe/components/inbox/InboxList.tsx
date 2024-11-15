@@ -2,9 +2,11 @@ import truncate from "@/lib/utils/truncate";
 import { getUserMessage } from "@/lib/api/inbox";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
+import formatData from "@/lib/utils/formatDate";
 interface Message {
   messageId: string;
   content: string;
+  sentAt: string;
 }
 
 export default function InboxList() {
@@ -35,15 +37,19 @@ export default function InboxList() {
 
   const messages: Message[] = data.data;
   return (
-    <div className="bg-red-400">
-      {messages.map((el) => (
-        <div
-          key={el.messageId}
-          className="w-full h-fit flex justify-start items-center text-justify hover:shadow-xl py-3"
-        >
-          <div>{truncate(el.content)}</div>
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="text-black z-10 py-2">{`받은 편지함 (${messages.length})`}</div>
+      <div className=" w-full h-full overflow-y-auto ">
+        {messages.map((el) => (
+          <div
+            key={el.messageId}
+            className="w-full h-fit flex justify-between items-center text-justify hover:shadow-xl py-3 bg-tossback-gray mb-1"
+          >
+            <div>{truncate(el.content)}</div>
+            <div>{formatData(el.sentAt)}</div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
