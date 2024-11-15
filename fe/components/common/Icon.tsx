@@ -25,7 +25,7 @@ const iconsMap: { [key: string]: IconType } = {
   send: BsSendPlus,
   message: MdOutlineMessage,
   money: RiMoneyDollarCircleLine,
-  question: AiOutlineQuestion
+  contact: AiOutlineQuestion
 };
 
 const Icon = ({ name, className }: IconProps) => {
