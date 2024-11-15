@@ -5,7 +5,7 @@ import { useMutation } from "react-query";
 import { signup } from "@/lib/api/signup";
 import { useSignUpForm } from "./useSignUpForm";
 import { SubmitHandler } from "react-hook-form";
-import { ErrorText } from "../common/ErrorText";
+import { ErrorText } from "../../lib/utils/ErrorText";
 import { CheckDoubleButton } from "../common/CheckDoubleButton";
 import { checkUserId, checkNickname } from "@/lib/api/signup";
 interface FormData {
