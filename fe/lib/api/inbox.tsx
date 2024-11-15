@@ -11,7 +11,7 @@ export async function getUserMessage(userId: string) {
   const result = await res.json();
 
   if (!result.success) {
-    throw new Error(res.message);
+    throw new Error(result.message);
   }
   return result;
 }
