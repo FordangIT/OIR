@@ -1,24 +1,22 @@
-import { ChangeEvent } from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface InputFieldProps {
   id: string;
-  name: string;
-  value: string;
   placeholder: string;
   icon: React.ReactNode;
   type?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   isRequired?: boolean;
+  register?: UseFormRegisterReturn;
+  right: boolean;
 }
 
 export const InputField = ({
   id,
-  name,
-  value,
   placeholder,
   icon,
   type = "text",
-  onChange,
+  register,
+  right,
   isRequired = false
 }: InputFieldProps) => (
   <div className="flex flex-row w-full h-12 justify-center items-center ">
@@ -28,12 +26,12 @@ export const InputField = ({
     <input
       type={type}
       id={id}
-      name={name}
-      value={value}
-      onChange={onChange}
       placeholder={placeholder}
+      {...register}
       required={isRequired}
-      className="w-full h-full focus:border focus:border-main-green focus:outline-none text-center transition duration-300 ease-in-out"
+      className={`w-full h-full focus:border focus:border-main-green focus:outline-none text-center transition duration-300 ease-in-out${
+        right ? " mr-20" : ""
+      }`}
       maxLength={20}
     />
   </div>

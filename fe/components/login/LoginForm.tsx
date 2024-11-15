@@ -1,7 +1,12 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-interface FormData {
+import { useMutation } from "react-query";
+import { login } from "@/lib/api/login";
+import { useDispatch } from "react-redux";
+import { setUserId } from "@/lib/redux/slices/authSlice";
+
+export interface FormData {
   userid: string;
   password: string;
 }
@@ -13,6 +18,19 @@ export default function LoginForm() {
   });
   const [error, setError] = useState<string>("");
   const router = useRouter();
+  const dispatch = useDispatch();
+  const loginMutation = useMutation(login, {
+    onSuccess: (result) => {
+      dispatch(setUserId(result.data));
+      router.push("/");
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
+      setError("로그인에 실패했습니다. 다시 시도해 주세요");
+    }
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,18 +47,16 @@ export default function LoginForm() {
       setError("아이디와 비밀번호 모두 작성해주세요");
       return;
     }
-
-    router.push("/");
+    loginMutation.mutate(formData);
   };
   return (
     <form
       onSubmit={handleSubmit}
       className="w-96 flex flex-col justify-center items-center"
     >
-      <div className="w-60">
-        <div className="mb-10 w-full">
+      <div className="">
+        <div className="my-10 w-full">
           <div>
-            <label></label>
             <input
               type="text"
               id="userid"
@@ -53,9 +69,8 @@ export default function LoginForm() {
             ></input>
           </div>
           <div>
-            <label></label>
             <input
-              type="text"
+              type="password"
               id="password"
               name="password"
               value={formData.password}
