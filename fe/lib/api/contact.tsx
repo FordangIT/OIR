@@ -2,7 +2,7 @@ interface FormData {
   content: string;
 }
 
-export async function contact(content: FormData) {
+export async function contact({ content }: FormData) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/contact`, {
     method: "POST",
     headers: {
