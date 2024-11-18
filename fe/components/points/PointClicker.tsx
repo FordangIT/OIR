@@ -41,16 +41,16 @@ export default function PointClicker() {
         <div className="mb-3">
           {Number(count) >= 10 ? (
             <Image
-              src="/images/open.jpeg"
-              alt="보물상자 open"
+              src="/images/open.png"
+              alt="oir 보물상자 open"
               width={70}
               height={70}
               onClick={handleImageClick}
             />
           ) : (
             <Image
-              src="/images/close.jpeg"
-              alt="보물상자 close"
+              src="/images/close.png"
+              alt="oir 보물상자 close"
               width={60}
               height={60}
             />
@@ -66,16 +66,16 @@ export default function PointClicker() {
           </div>
           {state ? (
             <Image
-              src={`/images/click1.jpeg`}
-              alt="포인트 충전"
+              src={`/images/click1.png`}
+              alt="oir 포인트 충전"
               height={150}
               width={150}
               onClick={handleCount}
             />
           ) : (
             <Image
-              src={`/images/click2.jpeg`}
-              alt="포인트 충전"
+              src={`/images/click2.png`}
+              alt="oir 포인트 충전"
               height={150}
               width={150}
               onClick={handleCount}

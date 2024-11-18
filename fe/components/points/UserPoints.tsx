@@ -16,8 +16,8 @@ export default function UserPoints() {
   return (
     <div className="row-position">
       <Image
-        src="/images/point.jpeg"
-        alt="포인트 이미지"
+        src="/images/point.png"
+        alt="oir 포인트 이미지"
         height={20}
         width={20}
       />

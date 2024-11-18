@@ -4,7 +4,7 @@ export default function SignUp() {
   return (
     <div className="flex flex-col items-center justify-center bg-white h-full w-full">
       <Image
-        src="/images/text_logo.jpeg"
+        src="/images/text_logo.png"
         alt="oir 로고"
         width={300}
         height={200}
