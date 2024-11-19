@@ -12,7 +12,7 @@ export default function ContactForm() {
 
   const { mutate } = useMutation((newData: FormData) => contact(newData), {
     onSuccess: () => {
-      alert("빠른 시일내에 고치겠습니다!");
+      alert("문의가 완료되었습니다. 감사합니다.");
       setFormData({ content: "" });
     },
     onError: (error) => {
