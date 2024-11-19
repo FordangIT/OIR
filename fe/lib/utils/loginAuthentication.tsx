@@ -8,7 +8,6 @@ export async function loginAuthentication(
   const token = cookies.jwtToken;
 
   if (token) {
-    console.log("token이 없습니다.");
     return {
       redirect: {
         destination: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/send`,
