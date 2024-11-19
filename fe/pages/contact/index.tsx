@@ -1,4 +1,11 @@
 import ContactForm from "@/components/contact/ContactForm";
+import { requireAuthentication } from "@/lib/utils/requireAuthentication";
+import { GetServerSideProps } from "next";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return requireAuthentication(context);
+};
+
 export default function Contact() {
   return (
     <>

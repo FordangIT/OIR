@@ -22,7 +22,7 @@ export default function LoginForm() {
   const loginMutation = useMutation(login, {
     onSuccess: (result) => {
       dispatch(setUserId(result.data));
-      router.push("/");
+      router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/send`);
     },
     onError: (error) => {
       if (error instanceof Error) {
