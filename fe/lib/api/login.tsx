@@ -6,8 +6,7 @@ export async function login({ userid, password }: FormData) {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ userId: userid, password: password }),
-    credentials: "include"
+    body: JSON.stringify({ userId: userid, password: password })
   });
   const result = await res.json();
   if (!result.success) {
