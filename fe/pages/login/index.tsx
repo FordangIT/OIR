@@ -1,11 +1,11 @@
 import Image from "next/image";
 import LoginForm from "@/components/login/LoginForm";
-import { loginAuthentication } from "@/lib/utils/loginAuthentication";
-import { GetServerSideProps } from "next";
+// import { loginAuthentication } from "@/lib/utils/loginAuthentication";
+// import { GetServerSideProps } from "next";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return loginAuthentication(context);
-};
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   return loginAuthentication(context);
+// };
 
 export default function Login() {
   return (
