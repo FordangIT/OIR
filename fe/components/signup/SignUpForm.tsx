@@ -27,7 +27,8 @@ export default function SignUpForm() {
     }
   });
 
-  const { register, handleSubmit, errors, getValues, reset } = useSignUpForm();
+  const { register, handleSubmit, errors, getValues, setValue } =
+    useSignUpForm();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     signupMutation.mutate(data);
@@ -39,7 +40,7 @@ export default function SignUpForm() {
       const result = await checkUserId(userId);
       alert(result.message);
       if (!result.success) {
-        reset();
+        setValue("userId", "");
       }
     } catch (error) {
       alert(`다시 시도하세요 ${error}`);
