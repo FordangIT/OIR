@@ -8,7 +8,7 @@ export const useSignUpForm = () => {
     handleSubmit,
     formState: { errors },
     getValues,
-    reset
+    setValue
   } = useForm({
     resolver: yupResolver(validationSchema),
     mode: "onChange"
@@ -18,6 +18,6 @@ export const useSignUpForm = () => {
     handleSubmit,
     errors,
     getValues,
-    reset
+    setValue
   };
 };

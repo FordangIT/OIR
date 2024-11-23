@@ -53,7 +53,7 @@ export default function SignUpForm() {
       const result = await checkNickname(nickname);
       alert(result.message);
       if (!result.success) {
-        reset();
+        setValue("nickname", "");
       }
     } catch (error) {
       alert(`다시 시도하세요 ${error}`);
