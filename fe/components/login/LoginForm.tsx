@@ -27,7 +27,6 @@ export default function LoginForm() {
     onError: (error) => {
       if (error instanceof Error) {
         setError(error.message);
-        console.log(error.message);
       }
       setError("로그인에 실패했습니다. 다시 시도해 주세요");
     }

@@ -2,13 +2,6 @@ import { FormData } from "@/components/login/LoginForm";
 
 export async function login({ userid, password }: FormData) {
   try {
-    // 요청 URL과 데이터 로그 출력
-    console.log(
-      "Request URL:",
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`
-    );
-    console.log("Request body:", { userId: userid, password: password });
-
     // API 요청
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
@@ -21,9 +14,6 @@ export async function login({ userid, password }: FormData) {
         credentials: "include" // 쿠키 전송을 위한 설정
       }
     );
-    // 응답 상태 확인
-    console.log("Response status:", res.status);
-    console.log("Response headers:", res.headers);
 
     if (!res.ok) {
       const errorData = await res.json();
@@ -32,9 +22,6 @@ export async function login({ userid, password }: FormData) {
 
     // JSON 파싱
     const result = await res.json();
-
-    // API 응답 데이터 확인
-    console.log("Response data:", result);
 
     if (!result.success) {
       throw new Error(result.message || "Login failed");
