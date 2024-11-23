@@ -1,11 +1,15 @@
 import PointClicker from "@/components/points/PointClicker";
 import UserPoints from "@/components/points/UserPoints";
-// import { requireAuthentication } from "@/lib/utils/requireAuthentication";
-// import { GetServerSideProps } from "next";
+import { requireAuthentication } from "@/lib/utils/requireAuthentication";
+import { GetServerSideProps } from "next";
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   return requireAuthentication(context);
-// };
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  context.res.setHeader(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate"
+  );
+  return requireAuthentication(context);
+};
 export default function Points() {
   return (
     <div className="flex flex-col h-full">
