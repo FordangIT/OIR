@@ -1,16 +1,8 @@
 import PointClicker from "@/components/points/PointClicker";
 import UserPoints from "@/components/points/UserPoints";
-import { requireAuthentication } from "@/lib/utils/requireAuthentication";
-import { GetServerSideProps } from "next";
+import withAuth from "@/lib/utils/withAuth";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
-  return requireAuthentication(context);
-};
-export default function Points() {
+const Points = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="flex justify-end items-center p-5 h-8">
@@ -21,4 +13,6 @@ export default function Points() {
       </div>
     </div>
   );
-}
+};
+
+export default withAuth(Points);
