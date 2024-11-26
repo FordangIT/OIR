@@ -12,7 +12,6 @@ export const verifyToken = async () => {
     if (!response.ok) {
       throw new Error("JWT verification failed");
     }
-
     return await response.json();
   } catch (error) {
     throw error;
