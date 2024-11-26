@@ -1,15 +1,7 @@
 import SendForm from "@/components/send/SendForm";
-import { requireAuthentication } from "@/lib/utils/requireAuthentication";
-import { GetServerSideProps } from "next";
+import withAuth from "@/lib/utils/withAuth";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
-  return requireAuthentication(context);
-};
-export default function Send() {
+const Send = () => {
   return (
     <div className="col-position h-full w-full">
       <span className="block text-red-600 mb-5">
@@ -21,4 +13,6 @@ export default function Send() {
       </span>
     </div>
   );
-}
+};
+
+export default withAuth(Send);
