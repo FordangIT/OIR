@@ -7,6 +7,18 @@ export default function Nav() {
   const userId = useSelector((state: RootState) => state.auth.userId);
   return (
     <div className="w-full flex justify-around items-center">
+      {/* <Link href="/">
+        <div className="main-icon-wrapper group">
+          <Icon name="home" className="icon-base" />
+          <TextInfo text="home" />
+        </div>
+      </Link> */}
+      <Link href="/timetable">
+        <div className="main-icon-wrapper group">
+          <Icon name="timetable" className="icon-base" />
+          <TextInfo text="timetable" />
+        </div>
+      </Link>
       <Link href="/send">
         <div className="main-icon-wrapper group">
           <Icon name="send" className="icon-base" />
@@ -23,12 +35,6 @@ export default function Nav() {
         <div className="main-icon-wrapper group">
           <Icon name="money" className="icon-base" />
           <TextInfo text="points" />
-        </div>
-      </Link>
-      <Link href="/contact">
-        <div className="main-icon-wrapper group">
-          <Icon name="contact" className="icon-base" />
-          <TextInfo text="문의" />
         </div>
       </Link>
     </div>

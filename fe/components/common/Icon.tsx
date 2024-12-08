@@ -9,12 +9,18 @@ import { BsSendPlus } from "react-icons/bs";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { AiOutlineQuestion } from "react-icons/ai";
 import { MdOutlineMessage } from "react-icons/md";
+import { RiHome2Line } from "react-icons/ri";
+import { FaRegCircleUser } from "react-icons/fa6";
+import { FiTable } from "react-icons/fi";
 interface IconProps {
   name: string;
   className?: string;
 }
 
 const iconsMap: { [key: string]: IconType } = {
+  home: RiHome2Line,
+  user: FaRegCircleUser,
+  timetable: FiTable,
   school: FaSchool,
   grade: IoIosSchool,
   username: FiUsers,
