@@ -12,6 +12,7 @@ import { MdOutlineMessage } from "react-icons/md";
 import { RiHome2Line } from "react-icons/ri";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FiTable } from "react-icons/fi";
+import { CiSquarePlus } from "react-icons/ci";
 interface IconProps {
   name: string;
   className?: string;
@@ -31,7 +32,8 @@ const iconsMap: { [key: string]: IconType } = {
   send: BsSendPlus,
   message: MdOutlineMessage,
   money: RiMoneyDollarCircleLine,
-  contact: AiOutlineQuestion
+  contact: AiOutlineQuestion,
+  plus: CiSquarePlus
 };
 
 const Icon = ({ name, className }: IconProps) => {
