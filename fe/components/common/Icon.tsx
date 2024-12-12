@@ -16,6 +16,7 @@ import { CiSquarePlus } from "react-icons/ci";
 interface IconProps {
   name: string;
   className?: string;
+  onClick?: () => void;
 }
 
 const iconsMap: { [key: string]: IconType } = {
@@ -36,9 +37,11 @@ const iconsMap: { [key: string]: IconType } = {
   plus: CiSquarePlus
 };
 
-const Icon = ({ name, className }: IconProps) => {
+const Icon = ({ name, className, onClick }: IconProps) => {
   const IconComponent = iconsMap[name];
-  return IconComponent ? <IconComponent className={className} /> : null;
+  return IconComponent ? (
+    <IconComponent className={className} onClick={onClick} />
+  ) : null;
 };
 
 export default Icon;

@@ -13,7 +13,7 @@ export default function Nav() {
           <TextInfo text="home" />
         </div>
       </Link> */}
-      <Link href="/timetable">
+      <Link href="/">
         <div className="main-icon-wrapper group">
           <Icon name="timetable" className="icon-base" />
           <TextInfo text="timetable" />

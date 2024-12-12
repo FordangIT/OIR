@@ -1,17 +1,17 @@
-import Link from "next/link";
-export default function Home() {
+import Table from "@/components/timetable/Table";
+import Icon from "@/components/common/Icon";
+import Modal from "@/components/timetable/Modal";
+export default function Timetable() {
   return (
-    <div className="col-position h-full w-full ">
-      <Link href="/login">
-        <span className="block text-gray-500 p-2 hover:bg-slate-100 rounded-lg">
-          로그인 하러 가기
-        </span>
-      </Link>
-      <Link href="signup">
-        <span className="block text-blue-500 p-2  hover:bg-slate-100 rounded-lg">
-          회원가입 하러 가기
-        </span>
-      </Link>
+    <div className="">
+      <div className="flex justify-between items-center my-5 ">
+        <div className="font-semibold text-xl">시간표</div>
+
+        <Modal />
+      </div>
+      <div>
+        <Table></Table>
+      </div>
     </div>
   );
 }
