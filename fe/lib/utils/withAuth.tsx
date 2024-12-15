@@ -17,22 +17,23 @@ const withAuth = <P extends WithAuthProps>(
     const { data, error, isLoading } = useQuery("verifyToken", verifyToken, {
       retry: false,
       onError: () => {
+        alert("로그인 해야 메시지를 확인할 수 있습니다. 1");
         router.replace("/login");
         console.log(`${error} : 에러가 난 것임. `);
       },
       onSuccess: (data) => {
         if (!data.valid) {
+          alert("로그인 해야 메시지를 확인할 수 있습니다. 2");
           router.replace("/login");
-          console.log("유효하지 않은 토큰임");
         }
         console.log("성공적임!");
       }
     });
 
     useEffect(() => {
-      console.log(data, "fe data확인");
       if (!isLoading && data && !data.valid) {
         // JWT 토큰이 없으면 로그인 페이지로 리다이렉트
+        alert("로그인 해야 메시지를 확인할 수 있습니다. 3");
         router.replace("/login");
         console.log("유효하지 않은 토큰임");
       } else if (!isLoading && !data) {
