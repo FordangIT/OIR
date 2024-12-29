@@ -1,5 +1,5 @@
-// utils 폴더에 HOC (Higher Order Component) 사용
-import { useEffect, ComponentType } from "react";
+// utils 폴더에 HOC(Higher Order Component) 사용
+import { ComponentType } from "react";
 import { useRouter } from "next/router";
 import { verifyToken } from "../api/verifyToken";
 import { useQuery } from "react-query";
@@ -16,37 +16,35 @@ const withAuth = <P extends WithAuthProps>(
 
     const { data, error, isLoading } = useQuery("verifyToken", verifyToken, {
       retry: false,
-      onError: () => {
-        alert("로그인 해야 메시지를 확인할 수 있습니다. 1");
-        router.replace("/login");
-        console.log(`${error} : 에러가 난 것임. `);
-      },
       onSuccess: (data) => {
         if (!data.valid) {
-          alert("로그인 해야 메시지를 확인할 수 있습니다. 2");
-          router.replace("/login");
+          if (data.reason === "user_not_found") {
+            alert("유효하지 않은 사용자입니다.");
+          } else if (data.reason === "jwt_token_not_found") {
+            alert("로그인이 필요합니다.");
+          } else if (data.reason === "token_expired") {
+            alert("토큰이 만료되었습니다. 다시 로그인 해주세요.");
+          } else {
+            alert("알 수 없는 오류가 발생했습니다.");
+          }
+          router.replace("/send");
         }
-        console.log("성공적임!");
+      },
+      onError: () => {
+        console.error("Error during token verification:", error);
+        alert("인증 과정에서 문제가 발생했습니다.");
+        router.replace("/send");
       }
     });
-
-    useEffect(() => {
-      if (!isLoading && data && !data.valid) {
-        // JWT 토큰이 없으면 로그인 페이지로 리다이렉트
-        alert("로그인 해야 메시지를 확인할 수 있습니다. 3");
-        router.replace("/login");
-        console.log("유효하지 않은 토큰임");
-      } else if (!isLoading && !data) {
-        router.replace("/login");
-        console.log("jwt 토큰이 없음");
-      }
-    }, [isLoading, data, router]);
 
     if (isLoading) {
       return <div>Loading...</div>;
     }
+    if (data?.valid) {
+      return <WrappedComponent {...props} />;
+    }
 
-    return <WrappedComponent {...props} />;
+    return null;
   };
 
   return AuthWrapper;
