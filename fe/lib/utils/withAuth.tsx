@@ -16,18 +16,11 @@ const withAuth = <P extends WithAuthProps>(
 
     const { data, error, isLoading } = useQuery("verifyToken", verifyToken, {
       retry: false,
+      staleTime: 60000, // 60초 동안 데이터 재검증 방지
+      cacheTime: 120000, // 2분 동안 캐시 유지
       onSuccess: (data) => {
         if (!data.valid) {
-          if (data.reason === "user_not_found") {
-            alert("유효하지 않은 사용자입니다.");
-          } else if (data.reason === "jwt_token_not_found") {
-            alert("로그인이 필요합니다.");
-          } else if (data.reason === "token_expired") {
-            alert("토큰이 만료되었습니다. 다시 로그인 해주세요.");
-          } else {
-            alert("알 수 없는 오류가 발생했습니다.");
-          }
-          router.replace("/send");
+          handleInvalidToken(data.reason);
         }
       },
       onError: () => {
@@ -36,6 +29,23 @@ const withAuth = <P extends WithAuthProps>(
         router.replace("/send");
       }
     });
+
+    const handleInvalidToken = (reason: string) => {
+      switch (reason) {
+        case "user_not_found":
+          alert("유효하지 않은 사용자입니다.");
+          break;
+        case "jwt_token_not_found":
+          alert("로그인이 필요합니다.");
+          break;
+        case "token_expired":
+          alert("토큰이 만료되었습니다. 다시 로그인 해주세요.");
+          break;
+        default:
+          alert("알 수 없는 오류가 발생했습니다.");
+      }
+      router.replace("/send");
+    };
 
     if (isLoading) {
       return <div>Loading...</div>;
