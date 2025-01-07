@@ -1,7 +1,6 @@
 import SendForm from "@/components/send/SendForm";
-import withAuth from "@/lib/utils/withAuth";
 
-const Send = () => {
+export default function Send() {
   return (
     <div className="col-position h-full w-full">
       <span className="block text-red-600 mb-5">
@@ -13,6 +12,4 @@ const Send = () => {
       </span>
     </div>
   );
-};
-
-export default withAuth(Send);
+}
