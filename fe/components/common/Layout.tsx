@@ -14,10 +14,10 @@ export default function Layout({ children }: LayoutProps) {
   const shouldHideLogoAndNav = hideForPaths.includes(router.pathname);
 
   return (
-    <div className="flex flex-col h-screen w-full mx-10">
+    <div className="flex flex-col h-screen w-full mx-4">
       {!shouldHideLogoAndNav && <Header />}
-      <main className="row-position flex-1 w-full h-screen overflow-y-auto">
-        <div className="w-full sm:w-[30rem] bg-white h-full">{children}</div>
+      <main className="row-position flex-1 w-full  h-screen overflow-y-auto">
+        <div className="w-full h-full">{children}</div>
       </main>
       <nav className="w-full h-16 bg-white row-position z-10">
         {!shouldHideLogoAndNav && <Nav />}

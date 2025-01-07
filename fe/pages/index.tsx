@@ -5,7 +5,7 @@ export default function Timetable() {
   return (
     <div className="">
       <div className="flex justify-between items-center my-5 ">
-        <div className="font-semibold text-xl">시간표</div>
+        <div className="font-semibold text-2xl px-5">시간표</div>
 
         <Modal />
       </div>

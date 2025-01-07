@@ -24,10 +24,15 @@ const Table: React.FC = () => {
                 {days.map((day) => (
                   <td
                     key={`${day}-${period}`}
-                    className="border border-gray-300 p-2"
-                  >
-                    {}
-                  </td>
+                    className="border border-gray-300"
+                    style={{
+                      width: "100px",
+                      height: "60px",
+                      pointerEvents: "none",
+                      userSelect: "none",
+                      cursor: "default"
+                    }}
+                  ></td>
                 ))}
               </tr>
             ))}

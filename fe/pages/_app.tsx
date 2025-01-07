@@ -54,7 +54,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <QueryClientProvider client={queryClient}>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center w-full ">
               <Layout>
                 <Component {...pageProps} />
               </Layout>
