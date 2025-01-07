@@ -1,6 +1,5 @@
 import ContactForm from "@/components/contact/ContactForm";
 import { NextPage } from "next";
-import withAuth from "@/lib/utils/withAuth";
 
 type ContactProps = {
   customMessage?: string;
@@ -16,4 +15,4 @@ const Contact: NextPage<ContactProps> = ({ customMessage }) => {
   );
 };
 
-export default withAuth(Contact);
+export default Contact;

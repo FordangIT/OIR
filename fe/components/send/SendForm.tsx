@@ -3,12 +3,14 @@ import InputField from "../common/InputField";
 import { useMutation } from "react-query";
 import { sendMessage } from "@/lib/api/send";
 import { MessageForm } from "@/lib/api/send";
+import { useRouter } from "next/router";
 interface FormData {
   recipient: string;
   content: string;
 }
 
 export default function SendForm() {
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     recipient: "",
     content: ""
@@ -22,7 +24,8 @@ export default function SendForm() {
         setFormData({ recipient: "", content: "" });
       },
       onError: (error) => {
-        alert(`메시지 전송에 실패했습니다: ${error}`);
+        alert(`${error}`);
+        router.push("/points");
       }
     }
   );

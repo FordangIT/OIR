@@ -1,6 +1,5 @@
 import PointClicker from "@/components/points/PointClicker";
 import UserPoints from "@/components/points/UserPoints";
-import withAuth from "@/lib/utils/withAuth";
 
 const Points = () => {
   return (
@@ -15,4 +14,4 @@ const Points = () => {
   );
 };
 
-export default withAuth(Points);
+export default Points;
