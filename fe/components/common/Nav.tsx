@@ -7,13 +7,13 @@ export default function Nav() {
   const userId = useSelector((state: RootState) => state.auth.userId);
   return (
     <div className="w-full flex justify-around items-center">
-      {/* <Link href="/">
+      <Link href="/">
         <div className="main-icon-wrapper group">
           <Icon name="home" className="icon-base" />
           <TextInfo text="home" />
         </div>
-      </Link> */}
-      <Link href="/">
+      </Link>
+      <Link href="/timetable">
         <div className="main-icon-wrapper group">
           <Icon name="timetable" className="icon-base" />
           <TextInfo text="timetable" />
