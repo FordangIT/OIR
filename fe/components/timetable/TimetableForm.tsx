@@ -1,4 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
+import { useMutation, useQueryClient } from "react-query";
+import { addTimetable } from "@/lib/api/timetable";
 
 interface TimetableFormData {
   day: string;
@@ -15,11 +17,25 @@ export default function TimetableForm({ onClose }: { onClose: () => void }) {
     control,
     formState: { errors }
   } = useForm<TimetableFormData>();
+
+  const queryClient = useQueryClient();
+  const { mutate: addTimetableMutation, isLoading } = useMutation(
+    addTimetable,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("timetable");
+        onClose();
+      },
+      onError: (error: any) => {
+        console.error("Failed to add timetable:", error.message);
+      }
+    }
+  );
+
   const onSubmit = (data: TimetableFormData) => {
-    console.log("Form Data", data);
-    //여기에다가 백엔드 api 연결
-    onClose();
+    addTimetableMutation(data); // 시간표 추가 API 호출
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       {/* 요일 및 교시 선택 */}
@@ -112,8 +128,8 @@ export default function TimetableForm({ onClose }: { onClose: () => void }) {
 
       {/* 제출 버튼 */}
       <div className="flex justify-end">
-        <button type="submit" className="btn">
-          저장
+        <button type="submit" className="btn" disabled={isLoading}>
+          {isLoading ? "저장 중..." : "저장"}
         </button>
       </div>
     </form>
