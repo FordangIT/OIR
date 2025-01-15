@@ -7,6 +7,7 @@ interface FormData {
 
 export async function signup({ school, userId, password, nickname }: FormData) {
   try {
+    console.log("회원가입 fetch 전");
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`,
       {
@@ -29,6 +30,7 @@ export async function signup({ school, userId, password, nickname }: FormData) {
       return errorResult;
     }
     const result = await res.json();
+    console.log(result, "회원가입 후 result");
     return result;
   } catch (error) {
     console.error("Error Sign up ", error);

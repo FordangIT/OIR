@@ -19,12 +19,15 @@ export async function getTimetable() {
       credentials: "include"
     }
   );
-
+  console.log("Response status:", res.status); // 응답 상태 코드 확인
+  console.log("Response headers:", res.headers); // 응답 헤더 확인
   if (!res.ok) {
+    console.error("Failed to fetch timetable", res.status, await res.text());
     throw new Error("Failed to fetch timetable");
   }
-
-  return res.json();
+  const data = await res.json();
+  console.log("Timetable data:", data); // JSON 변환 후 데이터 확인
+  return data;
 }
 
 export async function addTimetable(timetableData: TimetableData) {

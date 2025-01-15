@@ -12,7 +12,7 @@ interface TimetableEntry {
 
 const Table: React.FC = () => {
   const days: string[] = ["월", "화", "수", "목", "금"];
-  const periods: string[] = Array.from({ length: 9 }, (_, i) => `${i}`);
+  const periods: string[] = Array.from({ length: 8 }, (_, i) => `${i + 1}`);
 
   const {
     data: timetable,

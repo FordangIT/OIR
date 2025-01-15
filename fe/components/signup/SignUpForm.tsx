@@ -20,6 +20,7 @@ export default function SignUpForm() {
   const router = useRouter();
   const signupMutation = useMutation(signup, {
     onSuccess: () => {
+      alert("회원가입 되었습니다.");
       router.push("/login");
     },
     onError: () => {
