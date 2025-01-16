@@ -50,7 +50,8 @@ const Table: React.FC = () => {
                 <td className="border border-gray-30 bg-gray-50">{period}</td>
                 {days.map((day) => {
                   const entry = timetable?.find(
-                    (t) => t.day === day && t.period === parseInt(period)
+                    (t) =>
+                      t.day === `${day}요일` && t.period === parseInt(period)
                   );
                   return (
                     <td
