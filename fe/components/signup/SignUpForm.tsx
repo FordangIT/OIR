@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { InputField } from "./InputField";
 import Icon from "../common/Icon";
@@ -8,6 +9,8 @@ import { SubmitHandler } from "react-hook-form";
 import { ErrorText } from "../../lib/utils/ErrorText";
 import { CheckDoubleButton } from "../common/CheckDoubleButton";
 import { checkUserId, checkNickname } from "@/lib/api/signup";
+import ModalSchoolSearch from "./ModalSchoolSearch";
+
 interface FormData {
   school: string;
   userId: string;
@@ -18,6 +21,11 @@ interface FormData {
 
 export default function SignUpForm() {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSchool, setSelectedSchool] = useState("");
+  const { register, handleSubmit, errors, getValues, setValue } =
+    useSignUpForm();
+
   const signupMutation = useMutation(signup, {
     onSuccess: () => {
       alert("회원가입 되었습니다.");
@@ -28,11 +36,17 @@ export default function SignUpForm() {
     }
   });
 
-  const { register, handleSubmit, errors, getValues, setValue } =
-    useSignUpForm();
-
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    signupMutation.mutate(data);
+    signupMutation.mutate({ ...data, school: selectedSchool });
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleSelectSchool = (schoolName: string) => {
+    setSelectedSchool(schoolName);
+    setValue("school", schoolName);
+    closeModal();
   };
 
   const handleCheckUserId = async () => {
@@ -66,17 +80,23 @@ export default function SignUpForm() {
       className="flex flex-col justify-center items-center"
       onSubmit={handleSubmit(onSubmit)}
     >
+      {/* 학교 검색 */}
       <div className="grid grid-cols-1 divide-y-2 my-3 w-full border-2 border-gray-200 rounded-md">
-        <InputField
-          id="school"
-          placeholder="school(--중학교, --고등학교)"
-          right={false}
-          icon={<Icon name="school" className="w-6 h-6 text-tosslogo-gray" />}
-          register={register("school", {
-            required: "학교는 필수 항목입니다."
-          })}
-        />
-        {errors.school && <ErrorText errors={errors.school.message} />}
+        <div className="flex items-center">
+          <input
+            type="text"
+            value={selectedSchool}
+            placeholder="학교를 검색하세요"
+            readOnly
+            className="input input-bordered w-full"
+          />
+          <button type="button" className="btn ml-2" onClick={openModal}>
+            학교 찾기
+          </button>
+        </div>
+        {errors.school && (
+          <p className="text-red-500">{errors.school.message}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 divide-y-2 w-full my-10 border-2 border-gray-200 rounded-md">
@@ -137,9 +157,17 @@ export default function SignUpForm() {
       <button
         type="submit"
         className="w-full h-12 bg-main-orange font-semibold text-white rounded-md text-md"
+        disabled={signupMutation.isLoading}
       >
-        승인 요청
+        {signupMutation.isLoading ? "회원가입 중..." : "승인 요청"}
       </button>
+
+      {isModalOpen && (
+        <ModalSchoolSearch
+          onClose={closeModal}
+          onSelectSchool={handleSelectSchool}
+        />
+      )}
     </form>
   );
 }

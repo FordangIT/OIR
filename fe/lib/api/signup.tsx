@@ -85,3 +85,30 @@ export async function checkNickname(nickname: string) {
     throw new Error("failed to check nickname");
   }
 }
+
+export async function searchSchool(schoolName: string) {
+  try {
+    const res = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_BACKEND_URL
+      }/school/search?schoolName=${encodeURIComponent(schoolName)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    if (!res.ok) {
+      const errorResult = await res.json();
+      return errorResult;
+    }
+    const result = await res.json();
+    console.log(result, "학교 검색 결과");
+    return result.results || [];
+  } catch (error) {
+    console.error("Error searching school", error);
+    throw new Error("Failed to search school");
+  }
+}
