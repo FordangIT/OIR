@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { InputField } from "./InputField";
 import Icon from "../common/Icon";
@@ -21,7 +21,7 @@ interface FormData {
 
 export default function SignUpForm() {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef<HTMLDialogElement>(null);
   const [selectedSchool, setSelectedSchool] = useState("");
   const { register, handleSubmit, errors, getValues, setValue } =
     useSignUpForm();
@@ -40,8 +40,12 @@ export default function SignUpForm() {
     signupMutation.mutate({ ...data, school: selectedSchool });
   };
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openModal = () => {
+    modalRef.current?.showModal();
+  };
+  const closeModal = () => {
+    modalRef.current?.close();
+  };
 
   const handleSelectSchool = (schoolName: string) => {
     setSelectedSchool(schoolName);
@@ -80,19 +84,30 @@ export default function SignUpForm() {
       className="flex flex-col justify-center items-center"
       onSubmit={handleSubmit(onSubmit)}
     >
-      {/* 학교 검색 */}
       <div className="grid grid-cols-1 divide-y-2 my-3 w-full border-2 border-gray-200 rounded-md">
         <div className="flex items-center">
           <input
             type="text"
             value={selectedSchool}
-            placeholder="학교를 검색하세요"
+            placeholder="학교"
             readOnly
-            className="input input-bordered w-full"
+            className="input w-full text-center"
           />
-          <button type="button" className="btn ml-2" onClick={openModal}>
-            학교 찾기
+          <button
+            type="button"
+            className="btn ml-2 cursor-pointer"
+            onClick={openModal}
+          >
+            검색
           </button>
+          <dialog ref={modalRef} className="modal">
+            <div className="modal-box">
+              <ModalSchoolSearch
+                onClose={closeModal}
+                onSelectSchool={handleSelectSchool}
+              />
+            </div>
+          </dialog>
         </div>
         {errors.school && (
           <p className="text-red-500">{errors.school.message}</p>
@@ -161,13 +176,6 @@ export default function SignUpForm() {
       >
         {signupMutation.isLoading ? "회원가입 중..." : "승인 요청"}
       </button>
-
-      {isModalOpen && (
-        <ModalSchoolSearch
-          onClose={closeModal}
-          onSelectSchool={handleSelectSchool}
-        />
-      )}
     </form>
   );
 }
