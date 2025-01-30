@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { searchSchool } from "../../lib/api/signup"; // API 호출 함수 재사용
+import { SignUpFormData } from "./SignUpForm";
 
 interface School {
-  ATPT_OFCDC_SC_CODE: string;
-  SD_SCHUL_CODE: string;
-  SCHUL_NM: string;
+  ATPT_OFCDC_SC_CODE: string; // 시도교육청 코드
+  SD_SCHUL_CODE: string; // 행정표준코드
+  SCHUL_NM: string; // 학교명
 }
 
 interface ModalSchoolSearchProps {
   onClose: () => void;
-  onSelectSchool: (schoolName: string) => void;
+  onSelectSchool: (school: SignUpFormData["school"]) => void;
 }
 
 export default function ModalSchoolSearch({
@@ -20,13 +21,13 @@ export default function ModalSchoolSearch({
   const [schoolName, setSchoolName] = useState("");
   const [query, setQuery] = useState(""); // 실제 API 호출 시 사용할 검색어
 
-  const {
-    data: schools = [],
-    error,
-    isFetching
-  } = useQuery(["schools", schoolName], () => searchSchool(schoolName), {
-    enabled: !!query
-  });
+  const { data: schools = [], isFetching } = useQuery(
+    ["schools", schoolName],
+    () => searchSchool(schoolName),
+    {
+      enabled: !!query
+    }
+  );
 
   // 검색 버튼 클릭 시 호출되는 함수
   const handleSearch = () => {
@@ -38,7 +39,11 @@ export default function ModalSchoolSearch({
   };
 
   const handleSelectSchool = (school: School) => {
-    onSelectSchool(school.SCHUL_NM); // 선택한 학교 이름을 부모 컴포넌트로 전달
+    onSelectSchool({
+      educationOfficeCode: school.ATPT_OFCDC_SC_CODE,
+      schoolCode: school.SD_SCHUL_CODE,
+      schoolName: school.SCHUL_NM
+    }); // 선택한 학교 이름을 부모 컴포넌트로 전달
     onClose();
   };
 
@@ -64,13 +69,13 @@ export default function ModalSchoolSearch({
         </button>
 
         <ul>
-          {schools.map((school) => (
+          {schools.map((school: School) => (
             <li
               key={school.SD_SCHUL_CODE}
               className="p-2 border-b cursor-pointer hover:bg-gray-200"
               onClick={() => handleSelectSchool(school)}
             >
-              <strong>{school.SCHUL_NM}</strong> (행정코드:{" "}
+              <strong>{school.SCHUL_NM}</strong> (행정코드:
               {school.SD_SCHUL_CODE})
             </li>
           ))}

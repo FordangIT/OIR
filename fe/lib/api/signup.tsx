@@ -1,13 +1,12 @@
-interface FormData {
-  school: string;
-  userId: string;
-  password: string;
-  nickname: string;
-}
+import { SignUpFormData } from "@/components/signup/SignUpForm";
 
-export async function signup({ school, userId, password, nickname }: FormData) {
+export async function signup({
+  school,
+  userId,
+  password,
+  nickname
+}: SignUpFormData) {
   try {
-    console.log("회원가입 fetch 전");
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`,
       {
@@ -16,7 +15,9 @@ export async function signup({ school, userId, password, nickname }: FormData) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          school,
+          schoolName: school.schoolName, // 학교명
+          educationOfficeCode: school.educationOfficeCode, // 시도교육청코드
+          schoolCode: school.schoolCode, // 행정표준코드
           userId,
           password,
           nickname,

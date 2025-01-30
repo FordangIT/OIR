@@ -11,8 +11,12 @@ import { CheckDoubleButton } from "../common/CheckDoubleButton";
 import { checkUserId, checkNickname } from "@/lib/api/signup";
 import ModalSchoolSearch from "./ModalSchoolSearch";
 
-interface FormData {
-  school: string;
+export interface SignUpFormData {
+  school: {
+    educationOfficeCode: string;
+    schoolCode: string;
+    schoolName: string;
+  };
   userId: string;
   password: string;
   repassword: string;
@@ -22,7 +26,15 @@ interface FormData {
 export default function SignUpForm() {
   const router = useRouter();
   const modalRef = useRef<HTMLDialogElement>(null);
-  const [selectedSchool, setSelectedSchool] = useState("");
+
+  const [selectedSchool, setSelectedSchool] = useState<
+    SignUpFormData["school"]
+  >({
+    schoolName: "",
+    educationOfficeCode: "",
+    schoolCode: ""
+  });
+
   const { register, handleSubmit, errors, getValues, setValue } =
     useSignUpForm();
 
@@ -36,8 +48,20 @@ export default function SignUpForm() {
     }
   });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    signupMutation.mutate({ ...data, school: selectedSchool });
+  const onSubmit: SubmitHandler<SignUpFormData> = (data) => {
+    if (!data.school || !data.school.schoolName) {
+      alert("학교를 선택해주세요.");
+      return;
+    }
+
+    signupMutation.mutate({
+      ...data,
+      school: {
+        schoolName: selectedSchool.schoolName,
+        educationOfficeCode: selectedSchool.educationOfficeCode,
+        schoolCode: selectedSchool.schoolCode
+      }
+    });
   };
 
   const openModal = () => {
@@ -47,9 +71,10 @@ export default function SignUpForm() {
     modalRef.current?.close();
   };
 
-  const handleSelectSchool = (schoolName: string) => {
-    setSelectedSchool(schoolName);
-    setValue("school", schoolName);
+  const handleSelectSchool = (school: SignUpFormData["school"]) => {
+    console.log(school, "선택된 학교 정보 확인"); // 디버깅용 로그
+    setSelectedSchool(school);
+    setValue("school", school, { shouldValidate: true });
     closeModal();
   };
 
@@ -88,7 +113,7 @@ export default function SignUpForm() {
         <div className="flex items-center">
           <input
             type="text"
-            value={selectedSchool}
+            value={selectedSchool.schoolName}
             placeholder="학교"
             readOnly
             className="input w-full text-center"
