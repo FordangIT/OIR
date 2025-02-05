@@ -15,9 +15,7 @@ export async function signup({
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          schoolName: school.schoolName, // 학교명
-          educationOfficeCode: school.educationOfficeCode, // 시도교육청코드
-          schoolCode: school.schoolCode, // 행정표준코드
+          school,
           userId,
           password,
           nickname,

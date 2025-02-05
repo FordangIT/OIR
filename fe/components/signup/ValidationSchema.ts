@@ -1,7 +1,12 @@
 import * as Yup from "yup";
 
 export const validationSchema = Yup.object().shape({
-  school: Yup.string().required("학교는 필수 항목입니다."),
+  school: Yup.object().shape({
+    educationOfficeCode:
+      Yup.string().required("시도교육청 코드를 입력해주세요."),
+    schoolCode: Yup.string().required("학교 코드를 입력해주세요."),
+    schoolName: Yup.string().required("학교 이름을 입력해주세요.")
+  }),
   userId: Yup.string()
     .matches(/^[a-z0-9]+$/, "아이디는 영소문자와 숫자만 허용됩니다.")
     .required("아이디는 필수 항목입니다."),
