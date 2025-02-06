@@ -1,10 +1,11 @@
+import Image from "next/image";
 import { getSchoolMeals } from "@/lib/api/school";
 import { useQuery } from "react-query";
 
 interface Meal {
   date: string;
   mealType: string;
-  menu: string;
+  menu: Array<string>;
   calories: string;
 }
 
@@ -28,22 +29,50 @@ export default function SchoolMeals() {
     );
   }
 
+  if (data.results.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <Image
+          src="/images/main.png"
+          alt="이번달 급식 정보 없음~"
+          width={130}
+          height={100}
+        />
+        <div className="py-2">
+          이번달 <span className="text-main-green">급식 정보</span>가 없습니다
+        </div>
+      </div>
+    );
+  }
+  const schoolName = data.results[0].school;
   const meals: Meal[] = data.results;
 
   return (
     <>
-      <div className="text-black z-10 py-2">{`📌 이번 달 급식 (${meals.length})`}</div>
+      <h1 className="text-2xl font-bold mb-4">🏫 {schoolName} </h1>
+      <div className="text-black z-10 py-2">{`📌 이번 달 급식`}</div>
       <div className="w-full h-full overflow-y-auto">
         {meals.map((meal, index) => (
           <div
             key={index}
-            className="w-full h-fit flex flex-col justify-between items-start text-justify hover:shadow-xl py-3 bg-gray-100 mb-1 p-3 rounded-md"
+            className="w-full h-fit py-3 bg-gray-100 mb-2 p-3 rounded-md"
           >
-            <div className="font-bold">
-              {meal.date} ({meal.mealType})
+            <div className="w-full flex justify-between mb-1">
+              <div className="font-bold">
+                {`${meal.date.slice(4, 6)}/${meal.date.slice(6)}`}
+              </div>
+              <div className="border rounded-2xl px-2 text-center text-white bg-main-orange font-semibold">
+                {meal.mealType}
+              </div>
             </div>
-            <div>🍽 {meal.menu}</div>
-            <div className="text-sm text-gray-500">🔥 {meal.calories}</div>
+            <div className="flex-row">
+              {meal.menu.map((el, idx) => (
+                <div key={idx} className="text-center py-1">
+                  {el}
+                </div>
+              ))}
+            </div>
+            <div className="text-sm text-gray-500 mt-2">🔥 {meal.calories}</div>
           </div>
         ))}
       </div>
