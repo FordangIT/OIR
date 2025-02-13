@@ -4,11 +4,38 @@ interface TimetableData {
   subject: string;
   teacher: string;
   color: string;
+  details: string;
 }
 
 interface DeleteTimetableData {
   day: string;
   period: number;
+}
+
+export interface GradeClassData {
+  grade: number;
+  classNumber: number;
+}
+
+export async function addGradeClass(data: GradeClassData): Promise<any> {
+  const queryParams = new URLSearchParams({
+    grade: data.grade.toString(),
+    classNm: data.classNumber.toString()
+  });
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/timetable?${queryParams}`,
+    {
+      method: "GET",
+      credentials: "include"
+    }
+  );
+  if (!res.ok) {
+    console.error("Failed to fetch timetable", res.status, await res.text());
+    throw new Error("Failed to fetch timetable");
+  }
+  const result = await res.json();
+  return result;
 }
 
 export async function getTimetable() {
@@ -19,14 +46,11 @@ export async function getTimetable() {
       credentials: "include"
     }
   );
-  console.log("Response status:", res.status); // 응답 상태 코드 확인
-  console.log("Response headers:", res.headers); // 응답 헤더 확인
   if (!res.ok) {
     console.error("Failed to fetch timetable", res.status, await res.text());
     throw new Error("Failed to fetch timetable");
   }
   const data = await res.json();
-  console.log("Timetable data:", data); // JSON 변환 후 데이터 확인
   return data;
 }
 
