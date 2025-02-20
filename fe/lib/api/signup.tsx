@@ -7,6 +7,7 @@ export async function signup({
   nickname
 }: SignUpFormData) {
   try {
+    console.log(school, "school 입력데이터");
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`,
       {
@@ -20,12 +21,15 @@ export async function signup({
           password,
           nickname,
           inbox: [],
-          points: 0
+          points: 0,
+          timetable: []
         })
       }
     );
     if (!res.ok) {
       const errorResult = await res.json();
+      console.log(errorResult, "error 백엔드 결과");
+      console.log(errorResult.message, "error 메시지");
       return errorResult;
     }
     const result = await res.json();

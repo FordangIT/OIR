@@ -16,6 +16,7 @@ export interface SignUpFormData {
     educationOfficeCode: string;
     schoolCode: string;
     schoolName: string;
+    schoolKind: string;
   };
   userId: string;
   password: string;
@@ -32,7 +33,8 @@ export default function SignUpForm() {
   >({
     schoolName: "",
     educationOfficeCode: "",
-    schoolCode: ""
+    schoolCode: "",
+    schoolKind: ""
   });
 
   const { register, handleSubmit, errors, getValues, setValue } =
@@ -59,7 +61,8 @@ export default function SignUpForm() {
       school: {
         schoolName: selectedSchool.schoolName,
         educationOfficeCode: selectedSchool.educationOfficeCode,
-        schoolCode: selectedSchool.schoolCode
+        schoolCode: selectedSchool.schoolCode,
+        schoolKind: selectedSchool.schoolKind
       }
     });
   };
