@@ -48,10 +48,13 @@ export default function SchoolMeals() {
   const meals: Meal[] = data.results;
 
   return (
-    <>
-      <h1 className="text-2xl font-bold mb-4">🏫 {schoolName} </h1>
-      <div className="text-black z-10 py-2">{`📌 이번 달 급식`}</div>
-      <div className="w-full h-full overflow-y-auto">
+    <div className="flex flex-col justify-center h-full">
+      <div className="flex flex-col justify-center items-center py-4">
+        <div className="text-2xl font-bold mb-4">🏫 {schoolName} </div>
+        <div className="text-black z-10 py-2">{`📌 이번 달 급식`}</div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-4 ">
         {meals.map((meal, index) => (
           <div
             key={index}
@@ -76,6 +79,6 @@ export default function SchoolMeals() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
