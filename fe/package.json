@@ -11,6 +11,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@reduxjs/toolkit": "^2.3.0",
+    "axios": "^1.8.4",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "next": "14.2.15",
@@ -26,6 +27,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.4",
     "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^20",
