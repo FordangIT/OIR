@@ -7,6 +7,7 @@ interface School {
   ATPT_OFCDC_SC_CODE: string; // 시도교육청 코드
   SD_SCHUL_CODE: string; // 행정표준코드
   SCHUL_NM: string; // 학교명
+  SCHUL_KND: string;
 }
 
 interface ModalSchoolSearchProps {
@@ -42,7 +43,8 @@ export default function ModalSchoolSearch({
     onSelectSchool({
       educationOfficeCode: school.ATPT_OFCDC_SC_CODE,
       schoolCode: school.SD_SCHUL_CODE,
-      schoolName: school.SCHUL_NM
+      schoolName: school.SCHUL_NM,
+      schoolKind: school.SCHUL_KND
     }); // 선택한 학교 이름을 부모 컴포넌트로 전달
     onClose();
   };
