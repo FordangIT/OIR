@@ -33,6 +33,7 @@ export default function TimetableForm({ onClose }: { onClose: () => void }) {
   );
 
   const onSubmit = (data: TimetableFormData) => {
+    console.log(data, "submit에서 data");
     addTimetableMutation(data); // 시간표 추가 API 호출
   };
 
@@ -46,11 +47,11 @@ export default function TimetableForm({ onClose }: { onClose: () => void }) {
           className="select select-bordered w-full"
         >
           <option value="">요일 선택</option>
-          <option value="monday">월요일</option>
-          <option value="tuesday">화요일</option>
-          <option value="wednesday">수요일</option>
-          <option value="thursday">목요일</option>
-          <option value="friday">금요일</option>
+          <option value="월">월요일</option>
+          <option value="화">화요일</option>
+          <option value="수">수요일</option>
+          <option value="목">목요일</option>
+          <option value="금">금요일</option>
         </select>
         {errors.day && (
           <p className="text-red-500 text-sm mt-1">
@@ -63,7 +64,10 @@ export default function TimetableForm({ onClose }: { onClose: () => void }) {
         <label className="block text-sm font-medium mb-1">교시</label>
         <input
           type="number"
-          {...register("period", { required: "교시를 입력하세요." })}
+          {...register("period", {
+            required: "교시를 입력하세요.",
+            valueAsNumber: true
+          })}
           className="input input-bordered w-full"
           min={1}
         />

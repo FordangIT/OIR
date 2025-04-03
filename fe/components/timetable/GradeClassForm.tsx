@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { addGradeClass } from "@/lib/api/timetable";
+import { setGradeClassAndUpdateTimetable } from "@/lib/api/timetable";
 
 interface GradeClassFormData {
   grade: number;
-  classNumber: number;
+  classNm: number;
 }
 
 export default function GradeClassForm({ onClose }: { onClose: () => void }) {
@@ -15,11 +15,11 @@ export default function GradeClassForm({ onClose }: { onClose: () => void }) {
   } = useForm<GradeClassFormData>();
 
   const queryClient = useQueryClient();
-  const { mutate: addGradeClassMutation, isLoading } = useMutation(
-    addGradeClass,
+  const { mutate: setGradeClassMutation, isLoading } = useMutation(
+    setGradeClassAndUpdateTimetable,
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("gradeClass");
+        queryClient.invalidateQueries("myTimetable");
         onClose();
       },
       onError: (error: any) => {
@@ -30,7 +30,7 @@ export default function GradeClassForm({ onClose }: { onClose: () => void }) {
 
   const onSubmit = (data: GradeClassFormData) => {
     console.log(data, "submitted grade/class data");
-    addGradeClassMutation(data);
+    setGradeClassMutation(data);
   };
 
   return (
@@ -57,17 +57,15 @@ export default function GradeClassForm({ onClose }: { onClose: () => void }) {
         <label className="block text-sm font-medium mb-1">반</label>
         <input
           type="number"
-          {...register("classNumber", {
+          {...register("classNm", {
             required: "반을 입력하세요.",
             valueAsNumber: true
           })}
           className="input input-bordered w-full"
           min={1}
         />
-        {errors.classNumber && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.classNumber.message}
-          </p>
+        {errors.classNm && (
+          <p className="text-red-500 text-sm mt-1">{errors.classNm.message}</p>
         )}
       </div>
 

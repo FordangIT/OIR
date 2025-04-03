@@ -1,17 +1,17 @@
 import { useRef } from "react";
-import Table from "@/components/timetable/Table";
+import TimeTable from "@/components/timetable/TimeTable";
 import Icon from "@/components/common/Icon";
 import TimetableForm from "@/components/timetable/TimetableForm";
 import GradeClassForm from "@/components/timetable/GradeClassForm";
 export default function Timetable() {
-  const modalRef = useRef<HTMLDialogElement>(null);
+  // const modalRef = useRef<HTMLDialogElement>(null);
   const gradeClassRef = useRef<HTMLDialogElement>(null);
-  const openModal = () => {
-    modalRef.current?.showModal();
-  };
-  const closeModal = () => {
-    modalRef.current?.close();
-  };
+  // const openModal = () => {
+  //   modalRef.current?.showModal();
+  // };
+  // const closeModal = () => {
+  //   modalRef.current?.close();
+  // };
 
   const openGradeClassModal = () => {
     gradeClassRef.current?.showModal();
@@ -48,7 +48,7 @@ export default function Timetable() {
         </dialog> */}
       </div>
       <div>
-        <Table></Table>
+        <TimeTable></TimeTable>
       </div>
     </div>
   );
