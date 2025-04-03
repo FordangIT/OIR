@@ -1,3 +1,5 @@
+import axios from "axios";
+
 interface TimetableData {
   day: string;
   period: number;
@@ -14,19 +16,24 @@ interface DeleteTimetableData {
 
 export interface GradeClassData {
   grade: number;
-  classNumber: number;
+  classNm: number;
 }
 
-export async function addGradeClass(data: GradeClassData): Promise<any> {
-  const queryParams = new URLSearchParams({
-    grade: data.grade.toString(),
-    classNm: data.classNumber.toString()
-  });
-
+//사용자 학년/반 설정
+export async function setGradeClassAndUpdateTimetable(
+  data: GradeClassData
+): Promise<any> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/timetable?${queryParams}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/timetable/grade-class`,
     {
-      method: "GET",
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        grade: data.grade,
+        classNm: data.classNm
+      }),
       credentials: "include"
     }
   );
@@ -38,22 +45,18 @@ export async function addGradeClass(data: GradeClassData): Promise<any> {
   return result;
 }
 
-export async function getTimetable() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/timetable/get`,
+//사용자의 시간표 조회
+export const getMyTimetable = async () => {
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/timetable/my`,
     {
-      method: "GET",
-      credentials: "include"
+      withCredentials: true
     }
   );
-  if (!res.ok) {
-    console.error("Failed to fetch timetable", res.status, await res.text());
-    throw new Error("Failed to fetch timetable");
-  }
-  const data = await res.json();
-  return data;
-}
+  return res.data;
+};
 
+//시간표 직접 수정(추가)
 export async function addTimetable(timetableData: TimetableData) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/timetable/add`,
