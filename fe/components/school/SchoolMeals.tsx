@@ -48,7 +48,7 @@ export default function SchoolMeals() {
   const meals: Meal[] = data.results;
 
   return (
-    <div className="flex flex-col justify-center h-full">
+    <div className="flex flex-col justify-center h-full w-full">
       <div className="flex flex-col justify-center items-center py-4">
         <div className="text-2xl font-bold mb-4">🏫 {schoolName} </div>
         <div className="text-black z-10 py-2">{`📌 이번 달 급식`}</div>

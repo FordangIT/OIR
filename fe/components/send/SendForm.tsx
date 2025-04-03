@@ -48,7 +48,7 @@ export default function SendForm() {
     });
   };
   return (
-    <div className="w-full h-96 border-2 bg-main-green p-3">
+    <div className="w-full h-96 border-2 bg-main-green p-3 rounded-xl">
       <form onSubmit={handleSubmit} className="flex flex-col h-full">
         <InputField
           type="text"
