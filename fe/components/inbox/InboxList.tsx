@@ -41,8 +41,10 @@ export default function InboxList() {
 
   const handleCopy = () => {
     const url = `${window.location.origin}/send/${userId}`;
-    navigator.clipboard.writeText(url);
-    alert("URL이 복사되었습니다.");
+    navigator.clipboard
+      .writeText(url)
+      .then(() => alert("주소가 복사되었습니다."))
+      .catch(() => alert("복사에 실패했습니다."));
   };
 
   if (isLoading) return <div>Loading...</div>;

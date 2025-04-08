@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import InputField from "../common/InputField";
 import { useMutation } from "react-query";
 import { sendMessage } from "@/lib/api/send";
@@ -9,12 +9,25 @@ interface FormData {
   content: string;
 }
 
-export default function SendForm() {
+interface SendFormProps {
+  prefilledRecipient?: string;
+}
+
+export default function SendForm({ prefilledRecipient }: SendFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     recipient: "",
     content: ""
   });
+
+  useEffect(() => {
+    if (prefilledRecipient) {
+      setFormData((prevData) => ({
+        ...prevData,
+        recipient: prefilledRecipient
+      }));
+    }
+  }, [prefilledRecipient]);
 
   const { mutate } = useMutation(
     (newMessage: MessageForm) => sendMessage(newMessage),
@@ -50,16 +63,18 @@ export default function SendForm() {
   return (
     <div className="w-full h-96 border-2 bg-main-green p-3 rounded-xl">
       <form onSubmit={handleSubmit} className="flex flex-col h-full">
-        <InputField
-          type="text"
-          id="recipient"
-          name="recipient"
-          value={formData.recipient}
-          onChange={handleChange}
-          placeholder="받는 사람 ID"
-          required
-          className="h-10 outline-none p-2"
-        />
+        {!prefilledRecipient && (
+          <InputField
+            type="text"
+            id="recipient"
+            name="recipient"
+            value={formData.recipient}
+            onChange={handleChange}
+            placeholder="받는 사람 ID"
+            required
+            className="h-10 outline-none p-2"
+          />
+        )}
         <textarea
           id="content"
           name="content"
