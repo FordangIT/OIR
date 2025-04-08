@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "./ValidationSchema";
+import { SignUpFormData } from "./SignUpForm";
 
 export const useSignUpForm = () => {
   const {
@@ -9,7 +10,7 @@ export const useSignUpForm = () => {
     formState: { errors },
     getValues,
     setValue
-  } = useForm({
+  } = useForm<SignUpFormData>({
     resolver: yupResolver(validationSchema),
     mode: "onChange"
   });

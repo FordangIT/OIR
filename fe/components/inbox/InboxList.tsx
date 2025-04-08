@@ -1,55 +1,130 @@
-import truncate from "@/lib/utils/truncate";
-import { getUserMessage } from "@/lib/api/inbox";
-import { useQuery } from "react-query";
 import { useRouter } from "next/router";
-import formatData from "@/lib/utils/formatDate";
-interface Message {
-  messageId: string;
+import { useQuery } from "react-query";
+import { getUserMessage } from "@/lib/api/inbox";
+import formatDate from "@/lib/utils/formatDate";
+import { useIsOwner } from "@/lib/hooks/useIsOwner";
+import ReplyBox from "./ReplyBox";
+import { useState } from "react";
+
+interface Reply {
+  senderId: string;
   content: string;
   sentAt: string;
+}
+
+interface Message {
+  _id: string;
+  content: string;
+  sentAt: string;
+  replies?: Reply[];
 }
 
 export default function InboxList() {
   const router = useRouter();
   const { userId } = router.query;
+  const isOwner = useIsOwner();
+  const [replyBoxOpen, setReplyBoxOpen] = useState<{ [key: string]: boolean }>(
+    {}
+  );
+
+  const toggleReplyBox = (id: string) => {
+    setReplyBoxOpen((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const { data, error, isLoading, isError } = useQuery(
-    ["userMessages"],
+    ["userMessages", userId],
     () => getUserMessage(userId as string),
     {
-      enabled: typeof userId === "string" // userId가 있을 때만 쿼리 활성화
+      enabled: typeof userId === "string"
     }
   );
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const handleCopy = () => {
+    const url = `${window.location.origin}/send/${userId}`;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => alert("주소가 복사되었습니다."))
+      .catch(() => alert("복사에 실패했습니다."));
+  };
+
+  if (isLoading) return <div>Loading...</div>;
 
   if (isError || !data?.success) {
     return (
       <div>
         {error instanceof Error
           ? error.message
-          : "메시지를 가져오는 중 오류가 발생했습니다. "}
+          : "메시지를 가져오는 중 오류가 발생했습니다."}
       </div>
     );
   }
 
   const messages: Message[] = data.data;
+
   return (
-    <>
-      <div className="text-black z-10 py-2">{`받은 편지함 (${messages.length})`}</div>
-      <div className=" w-full h-full overflow-y-auto ">
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold">{`받은 편지함 (${messages.length})`}</h2>
+        <button
+          onClick={handleCopy}
+          className="text-sm px-3 py-1 border border-gray-400 rounded-md hover:bg-gray-100"
+        >
+          주소 복사
+        </button>
+      </div>
+
+      <div className="space-y-3">
         {messages.map((el) => (
           <div
-            key={el.messageId}
-            className="w-full h-fit flex justify-between items-center text-justify hover:shadow-xl py-3 bg-tossback-gray mb-1"
+            key={el._id}
+            className="bg-white p-4 rounded-lg shadow-sm border space-y-2"
           >
-            <div>{truncate(el.content)}</div>
-            <div>{formatData(el.sentAt)}</div>
+            <div className="text-sm whitespace-pre-wrap break-words">
+              {el.content}
+            </div>
+            <div className="text-xs text-gray-500 text-right">
+              {formatDate(el.sentAt)}
+            </div>
+
+            {/* 답변 목록 */}
+            {Array.isArray(el.replies) && el.replies.length > 0 && (
+              <div className="mt-2 border-t pt-2 space-y-1">
+                <div className="text-xs font-medium text-gray-600">💬 답변</div>
+                {el.replies?.map((reply, index) => (
+                  <div
+                    key={index}
+                    className="pl-3 border-l border-gray-300 ml-1 text-sm text-gray-800"
+                  >
+                    <p className="whitespace-pre-wrap break-words">
+                      {reply.content}
+                    </p>
+                    <p className="text-[11px] text-right text-gray-500 mt-1">
+                      {formatDate(reply.sentAt)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {isOwner && (
+              <div className="mt-2">
+                <button
+                  onClick={() => toggleReplyBox(el._id)}
+                  className="text-xs text-blue-600 underline"
+                >
+                  {replyBoxOpen[el._id] ? "답장 닫기" : "답장하기"}
+                </button>
+                {replyBoxOpen[el._id] && (
+                  <ReplyBox
+                    parentMessageId={el._id}
+                    onClose={() => toggleReplyBox(el._id)}
+                  />
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

@@ -1,3 +1,4 @@
+import { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { InputField } from "./InputField";
 import Icon from "../common/Icon";
@@ -8,8 +9,15 @@ import { SubmitHandler } from "react-hook-form";
 import { ErrorText } from "../../lib/utils/ErrorText";
 import { CheckDoubleButton } from "../common/CheckDoubleButton";
 import { checkUserId, checkNickname } from "@/lib/api/signup";
-interface FormData {
-  school: string;
+import ModalSchoolSearch from "./ModalSchoolSearch";
+
+export interface SignUpFormData {
+  school: {
+    educationOfficeCode: string;
+    schoolCode: string;
+    schoolName: string;
+    schoolKind: string;
+  };
   userId: string;
   password: string;
   repassword: string;
@@ -18,8 +26,23 @@ interface FormData {
 
 export default function SignUpForm() {
   const router = useRouter();
+  const modalRef = useRef<HTMLDialogElement>(null);
+
+  const [selectedSchool, setSelectedSchool] = useState<
+    SignUpFormData["school"]
+  >({
+    schoolName: "",
+    educationOfficeCode: "",
+    schoolCode: "",
+    schoolKind: ""
+  });
+
+  const { register, handleSubmit, errors, getValues, setValue } =
+    useSignUpForm();
+
   const signupMutation = useMutation(signup, {
     onSuccess: () => {
+      alert("회원가입 되었습니다.");
       router.push("/login");
     },
     onError: () => {
@@ -27,11 +50,35 @@ export default function SignUpForm() {
     }
   });
 
-  const { register, handleSubmit, errors, getValues, setValue } =
-    useSignUpForm();
+  const onSubmit: SubmitHandler<SignUpFormData> = (data) => {
+    if (!data.school || !data.school.schoolName) {
+      alert("학교를 선택해주세요.");
+      return;
+    }
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    signupMutation.mutate(data);
+    signupMutation.mutate({
+      ...data,
+      school: {
+        schoolName: selectedSchool.schoolName,
+        educationOfficeCode: selectedSchool.educationOfficeCode,
+        schoolCode: selectedSchool.schoolCode,
+        schoolKind: selectedSchool.schoolKind
+      }
+    });
+  };
+
+  const openModal = () => {
+    modalRef.current?.showModal();
+  };
+  const closeModal = () => {
+    modalRef.current?.close();
+  };
+
+  const handleSelectSchool = (school: SignUpFormData["school"]) => {
+    console.log(school, "선택된 학교 정보 확인"); // 디버깅용 로그
+    setSelectedSchool(school);
+    setValue("school", school, { shouldValidate: true });
+    closeModal();
   };
 
   const handleCheckUserId = async () => {
@@ -66,16 +113,33 @@ export default function SignUpForm() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="grid grid-cols-1 divide-y-2 my-3 w-full border-2 border-gray-200 rounded-md">
-        <InputField
-          id="school"
-          placeholder="school(--중학교, --고등학교)"
-          right={false}
-          icon={<Icon name="school" className="w-6 h-6 text-tosslogo-gray" />}
-          register={register("school", {
-            required: "학교는 필수 항목입니다."
-          })}
-        />
-        {errors.school && <ErrorText errors={errors.school.message} />}
+        <div className="flex items-center">
+          <input
+            type="text"
+            value={selectedSchool.schoolName}
+            placeholder="학교"
+            readOnly
+            className="input w-full text-center"
+          />
+          <button
+            type="button"
+            className="btn ml-2 cursor-pointer"
+            onClick={openModal}
+          >
+            검색
+          </button>
+          <dialog ref={modalRef} className="modal">
+            <div className="modal-box">
+              <ModalSchoolSearch
+                onClose={closeModal}
+                onSelectSchool={handleSelectSchool}
+              />
+            </div>
+          </dialog>
+        </div>
+        {errors.school && (
+          <p className="text-red-500">{errors.school.message}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 divide-y-2 w-full my-10 border-2 border-gray-200 rounded-md">
@@ -136,8 +200,9 @@ export default function SignUpForm() {
       <button
         type="submit"
         className="w-full h-12 bg-main-orange font-semibold text-white rounded-md text-md"
+        disabled={signupMutation.isLoading}
       >
-        승인 요청
+        {signupMutation.isLoading ? "회원가입 중..." : "승인 요청"}
       </button>
     </form>
   );

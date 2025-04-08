@@ -1,8 +1,7 @@
 import { ReactNode } from "react";
-import Image from "next/image";
 import Nav from "./Nav";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import Header from "./Header";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,21 +14,10 @@ export default function Layout({ children }: LayoutProps) {
   const shouldHideLogoAndNav = hideForPaths.includes(router.pathname);
 
   return (
-    <div className="flex flex-col h-screen w-full mx-10">
-      {!shouldHideLogoAndNav && (
-        <Link href="/">
-          <header className="w-full h-20 row-position bg-white z-10">
-            <Image
-              src="/images/text_logo3.png"
-              alt="OIR oir 메인 로고"
-              width={100}
-              height={44}
-            />
-          </header>
-        </Link>
-      )}
-      <main className="row-position flex-1 w-full h-screen overflow-y-auto">
-        <div className="w-full sm:w-[30rem] bg-white h-full">{children}</div>
+    <div className="flex flex-col h-screen w-full max-w-full sm:max-w-[440px] lg:max-w-[700px] mx-auto px-4">
+      {!shouldHideLogoAndNav && <Header />}
+      <main className="row-position flex-1 w-full  h-screen overflow-y-auto">
+        <div className="w-full h-full">{children}</div>
       </main>
       <nav className="w-full h-16 bg-white row-position z-10">
         {!shouldHideLogoAndNav && <Nav />}
