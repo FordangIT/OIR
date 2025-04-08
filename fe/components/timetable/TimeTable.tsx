@@ -8,6 +8,7 @@ interface TimetableEntry {
   subject: string;
   teacher: string;
   color: string;
+  details: string;
 }
 
 const TimeTable: React.FC = () => {
