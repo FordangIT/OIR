@@ -8,6 +8,7 @@ interface TimetableFormData {
   subject: string;
   teacher: string;
   color: string;
+  details: string;
 }
 
 export default function TimetableForm({ onClose }: { onClose: () => void }) {
