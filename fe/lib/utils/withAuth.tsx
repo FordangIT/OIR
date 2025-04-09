@@ -16,8 +16,11 @@ const withAuth = <P extends WithAuthProps>(
 
     const { data, error, isLoading } = useQuery("verifyToken", verifyToken, {
       retry: false,
-      staleTime: 60000, // 60초 동안 데이터 재검증 방지
-      cacheTime: 120000, // 2분 동안 캐시 유지
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
+      cacheTime: 0,
+      staleTime: 0, // 60초 동안 데이터 재검증 방지
+
       onSuccess: (data) => {
         if (!data.valid) {
           handleInvalidToken(data.reason);
@@ -26,7 +29,7 @@ const withAuth = <P extends WithAuthProps>(
       onError: () => {
         console.error("Error during token verification:", error);
         alert("인증 과정에서 문제가 발생했습니다.");
-        router.replace("/send");
+        router.back();
       }
     });
 
@@ -44,7 +47,7 @@ const withAuth = <P extends WithAuthProps>(
         default:
           alert("알 수 없는 오류가 발생했습니다.");
       }
-      router.replace("/send");
+      router.back();
     };
 
     if (isLoading) {

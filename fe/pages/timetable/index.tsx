@@ -3,7 +3,8 @@ import TimeTable from "@/components/timetable/TimeTable";
 import Icon from "@/components/common/Icon";
 import TimetableForm from "@/components/timetable/TimetableForm";
 import GradeClassForm from "@/components/timetable/GradeClassForm";
-export default function Timetable() {
+import withAuth from "@/lib/utils/withAuth";
+function Timetable() {
   // const modalRef = useRef<HTMLDialogElement>(null);
   const gradeClassRef = useRef<HTMLDialogElement>(null);
   // const openModal = () => {
@@ -53,3 +54,5 @@ export default function Timetable() {
     </div>
   );
 }
+
+export default withAuth(Timetable);
