@@ -4,7 +4,18 @@ const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}"
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx}"
+  ],
+  safelist: [
+    "bg-pink-200",
+    "bg-sky-200",
+    "bg-teal-200",
+    "bg-yellow-200",
+    "bg-purple-200",
+    "bg-orange-200",
+    "bg-zinc-200",
+    "bg-white"
   ],
   theme: {
     extend: {

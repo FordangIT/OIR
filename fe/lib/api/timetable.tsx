@@ -74,7 +74,6 @@ export async function addTimetable(timetableData: TimetableData) {
   if (!result.success) {
     throw new Error("Failed to add timetable");
   }
-
   return result;
 }
 
