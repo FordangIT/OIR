@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { searchSchool } from "../../lib/api/signup"; // API 호출 함수 재사용
 import { SignUpFormData } from "./SignUpForm";
@@ -21,14 +21,28 @@ export default function ModalSchoolSearch({
 }: ModalSchoolSearchProps) {
   const [schoolName, setSchoolName] = useState("");
   const [query, setQuery] = useState(""); // 실제 API 호출 시 사용할 검색어
+  const [hasSearched, setHasSearched] = useState(false); // 👈 alert 중복 방지용
 
   const { data: schools = [], isFetching } = useQuery(
-    ["schools", schoolName],
-    () => searchSchool(schoolName),
+    ["schools", query],
+    () => searchSchool(query),
     {
-      enabled: !!query
+      enabled: !!query,
+      onError: (error) => {
+        alert("해당 학교명을 찾을 수 없습니다. 다시 입력해 주세요.");
+        console.error("학교 검색 실패:", error);
+      }
     }
   );
+
+  // ✅ 빈 배열일 경우 알림 띄우기
+  // 👇 useEffect에서 한 번만 alert
+  useEffect(() => {
+    if (schools.length === 0 && hasSearched) {
+      alert("학교명을 정확히 입력해 주세요. ex) 숭의, 효성 ");
+      setHasSearched(false); // 다시 검색해야 alert 뜨도록 리셋
+    }
+  }, [schools, hasSearched]);
 
   // 검색 버튼 클릭 시 호출되는 함수
   const handleSearch = () => {
@@ -37,6 +51,7 @@ export default function ModalSchoolSearch({
       return;
     }
     setQuery(schoolName);
+    setHasSearched(true); // 검색 후 alert 방지
   };
 
   const handleSelectSchool = (school: School) => {
@@ -51,24 +66,26 @@ export default function ModalSchoolSearch({
 
   return (
     <>
-      <div className="modal-box w-11/12 max-w-5xl">
-        <h3 className="font-bold text-lg">학교 검색</h3>
+      <div className="modal-box bg-white w-full">
+        <h3 className="font-bold text-md p-2">학교 검색</h3>
 
         <input
           type="text"
-          placeholder="학교명을 입력하세요"
+          placeholder="학교명을 입력하세요 ex) 효성"
           value={schoolName}
           onChange={(e) => setSchoolName(e.target.value)}
-          className="input input-bordered w-full"
+          className="input input-bordered w-full m-1 text-sm"
         />
-        <button
-          type="button"
-          className="btn"
-          onClick={handleSearch}
-          disabled={isFetching}
-        >
-          {isFetching ? "검색 중..." : "검색"}
-        </button>
+        <div className="flex justify-end mt-1">
+          <button
+            type="button"
+            className="btn "
+            onClick={handleSearch}
+            disabled={isFetching}
+          >
+            {isFetching ? "검색 중..." : "검색"}
+          </button>
+        </div>
 
         <ul>
           {schools.map((school: School) => (
