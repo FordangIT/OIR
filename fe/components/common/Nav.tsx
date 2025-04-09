@@ -23,7 +23,7 @@ export default function Nav() {
       {navItems.map((item) => {
         const href = item.href === "/inbox" ? `/inbox/${userId}` : item.href;
         const isActive =
-          pathname === item.href || pathname.startsWith(item.href + "/");
+          pathname === item.href || pathname?.startsWith(item.href + "/");
 
         return (
           <Link href={href} key={item.href}>
