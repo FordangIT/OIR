@@ -9,7 +9,7 @@ import { SubmitHandler } from "react-hook-form";
 import { ErrorText } from "../../lib/utils/ErrorText";
 import { CheckDoubleButton } from "../common/CheckDoubleButton";
 import { checkUserId, checkNickname } from "@/lib/api/signup";
-import ModalSchoolSearch from "./ModalSchoolSearch";
+import dynamic from "next/dynamic";
 
 export interface SignUpFormData {
   school: {
@@ -25,6 +25,9 @@ export interface SignUpFormData {
 }
 
 export default function SignUpForm() {
+  const ModalSchoolSearch = dynamic(() => import("./ModalSchoolSearch"), {
+    ssr: false
+  });
   const router = useRouter();
   const modalRef = useRef<HTMLDialogElement>(null);
 
