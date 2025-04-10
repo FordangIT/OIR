@@ -34,7 +34,6 @@ export default function TimetableForm({ onClose }: { onClose: () => void }) {
   );
 
   const onSubmit = (data: TimetableFormData) => {
-    console.log(data, "submit에서 data");
     addTimetableMutation(data); // 시간표 추가 API 호출
   };
 

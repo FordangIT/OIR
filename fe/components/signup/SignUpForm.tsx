@@ -78,7 +78,6 @@ export default function SignUpForm() {
   };
 
   const handleSelectSchool = (school: SignUpFormData["school"]) => {
-    console.log(school, "선택된 학교 정보 확인"); // 디버깅용 로그
     setSelectedSchool(school);
     setValue("school", school, { shouldValidate: true });
     closeModal();

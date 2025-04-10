@@ -29,13 +29,18 @@ export default function GradeClassForm({ onClose }: { onClose: () => void }) {
   );
 
   const onSubmit = (data: GradeClassFormData) => {
-    console.log(data, "submitted grade/class data");
-    setGradeClassMutation(data);
+    const cleanData = {
+      grade: Number(String(data.grade).replace(/^0+/, "")),
+      classNm: Number(String(data.classNm).replace(/^0+/, ""))
+    };
+    setGradeClassMutation(cleanData);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {/* 학년 입력 */}
+      <div className="w-full p-1 text-center text-main-red text-xs">
+        기존 시간표 초기화되고, 이번주 시간표 업데이트 됩니다.
+      </div>
       <div>
         <label className="block text-sm font-medium mb-1">학년</label>
         <input
