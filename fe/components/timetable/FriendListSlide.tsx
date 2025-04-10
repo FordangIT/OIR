@@ -20,9 +20,9 @@ export default function FriendListSlide({
   isOpen,
   onClose
 }: FriendListSlideProps) {
-  const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
-  const [isFriendTimetableOpen, setIsFriendTimetableOpen] = useState(false);
-  const [newFriendId, setNewFriendId] = useState("");
+  const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null); //친구 선택
+  const [isFriendTimetableOpen, setIsFriendTimetableOpen] = useState(false); //친구 시간표
+  const [newFriendId, setNewFriendId] = useState(""); //친구 추가 id
 
   const queryClient = useQueryClient();
   const { data: friends = [], isLoading } = useQuery("friends", getFriendList);
@@ -48,6 +48,7 @@ export default function FriendListSlide({
   };
 
   const handleFriendClick = (friend: Friend) => {
+    //친구 클릭하면 해당 친구 시간표 open
     setSelectedFriend(friend);
     setIsFriendTimetableOpen(true);
   };
@@ -109,7 +110,7 @@ export default function FriendListSlide({
           friendName={selectedFriend.friendId}
         >
           <div className="text-sm text-gray-600">
-            {selectedFriend.friendId}의 시간표가 여기에 표시됩니다.
+            {selectedFriend.friendId}의 시간표
           </div>
         </FriendTimetable>
       )}

@@ -1,5 +1,5 @@
 // components/timetable/FriendTimetableSlide.tsx
-import React, { useState } from "react";
+import React, { ReactNode } from "react";
 import { useQuery } from "react-query";
 import { getFriendTimetable } from "@/lib/api/friends";
 import { COLOR_CLASS_MAP } from "@/lib/utils/ColorClassMap";
@@ -8,6 +8,7 @@ interface FriendTimetableProps {
   isOpen: boolean;
   onClose: () => void;
   friendName: string;
+  children?: ReactNode;
 }
 
 interface TimetableEntry {
