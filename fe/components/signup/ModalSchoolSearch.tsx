@@ -23,26 +23,25 @@ export default function ModalSchoolSearch({
   const [query, setQuery] = useState(""); // 실제 API 호출 시 사용할 검색어
   const [hasSearched, setHasSearched] = useState(false); // 👈 alert 중복 방지용
 
-  const { data: schools = [], isFetching } = useQuery(
-    ["schools", query],
-    () => searchSchool(query),
-    {
-      enabled: !!query,
-      onError: (error) => {
-        alert("해당 학교명을 찾을 수 없습니다. 다시 입력해 주세요.");
-        console.error("학교 검색 실패:", error);
-      }
+  const {
+    data: schools = [],
+    isFetching,
+    isSuccess
+  } = useQuery(["schools", query], () => searchSchool(query), {
+    enabled: !!query,
+    onError: (error) => {
+      console.error("학교 검색 실패:", error);
     }
-  );
+  });
 
   // ✅ 빈 배열일 경우 알림 띄우기
   // 👇 useEffect에서 한 번만 alert
   useEffect(() => {
-    if (schools.length === 0 && hasSearched) {
+    if (!isFetching && isSuccess && schools.length === 0 && hasSearched) {
       alert("학교명을 정확히 입력해 주세요. ex) 숭의, 효성 ");
       setHasSearched(false); // 다시 검색해야 alert 뜨도록 리셋
     }
-  }, [schools, hasSearched]);
+  }, [schools, hasSearched, isFetching, isSuccess]);
 
   // 검색 버튼 클릭 시 호출되는 함수
   const handleSearch = () => {
@@ -74,6 +73,13 @@ export default function ModalSchoolSearch({
           placeholder="학교명을 입력하세요 ex) 효성"
           value={schoolName}
           onChange={(e) => setSchoolName(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              e.stopPropagation();
+              handleSearch();
+            }
+          }}
           className="input input-bordered w-full m-1 text-sm"
         />
         <div className="flex justify-end mt-1">
