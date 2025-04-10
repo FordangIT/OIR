@@ -26,11 +26,11 @@ function Timetable() {
       <div className="flex justify-between items-center my-5 ">
         <div className="font-semibold text-xl">시간표</div>
         <button
-          className="bg-main-orange rounded-2xl text-center text-white px-3 py-1 text-sm
+          className="bg-main-orange rounded-md text-center text-white px-3 py-1 text-sm
         "
           onClick={openGradeClassModal}
         >
-          학년/반
+          자동 시간표
         </button>
         <dialog ref={gradeClassRef} className="modal">
           <div className="modal-box">
