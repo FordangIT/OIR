@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Nav from "./Nav";
 import { useRouter } from "next/router";
 import Header from "./Header";
+import Footer from "./Footer";
 
 interface LayoutProps {
   children: ReactNode;
@@ -22,6 +23,7 @@ export default function Layout({ children }: LayoutProps) {
       <nav className="w-full h-16 bg-white row-position z-10">
         {!shouldHideLogoAndNav && <Nav />}
       </nav>
+      <Footer />
     </div>
   );
 }
