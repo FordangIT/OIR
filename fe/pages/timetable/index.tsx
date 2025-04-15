@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import TimeTable from "@/components/timetable/TimeTable";
 import GradeClassForm from "@/components/timetable/GradeClassForm";
-import withAuth from "@/lib/utils/withAuth";
 import FriendListSlide from "@/components/timetable/FriendListSlide";
 function Timetable() {
   const gradeClassRef = useRef<HTMLDialogElement>(null);
@@ -51,4 +50,4 @@ function Timetable() {
   );
 }
 
-export default withAuth(Timetable);
+export default Timetable;
