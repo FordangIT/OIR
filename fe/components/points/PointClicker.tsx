@@ -56,14 +56,7 @@ export default function PointClicker() {
             />
           )}
         </div>
-        <div className="relative">
-          <div
-            className={`absolute right-0 font-bold text-main-red ${
-              state ? "block" : "hidden"
-            }`}
-          >
-            click
-          </div>
+        <div>
           {state ? (
             <Image
               src={`/images/click1.png`}
