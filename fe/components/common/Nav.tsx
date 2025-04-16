@@ -21,7 +21,12 @@ export default function Nav() {
   return (
     <div className="w-full flex justify-around items-center py-2">
       {navItems.map((item) => {
-        const href = item.href === "/inbox" ? `/inbox/${userId}` : item.href;
+        const href =
+          item.href === "/inbox"
+            ? userId
+              ? `/inbox/${userId}`
+              : "/inbox/default"
+            : item.href;
         const isActive =
           pathname === item.href || pathname?.startsWith(item.href + "/");
 
