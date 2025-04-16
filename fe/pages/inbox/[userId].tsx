@@ -1,5 +1,4 @@
 import InboxList from "@/components/inbox/InboxList";
-import withAuth from "@/lib/utils/withAuth";
 
 const Inbox = () => {
   return (
@@ -9,4 +8,4 @@ const Inbox = () => {
   );
 };
 
-export default withAuth(Inbox);
+export default Inbox;
