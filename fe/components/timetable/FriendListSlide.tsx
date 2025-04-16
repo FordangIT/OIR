@@ -12,11 +12,13 @@ interface Friend {
 }
 
 interface FriendListSlideProps {
+  isLoggedIn: boolean;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export default function FriendListSlide({
+  isLoggedIn,
   isOpen,
   onClose
 }: FriendListSlideProps) {
@@ -25,7 +27,9 @@ export default function FriendListSlide({
   const [newFriendId, setNewFriendId] = useState(""); //친구 추가 id
 
   const queryClient = useQueryClient();
-  const { data: friends = [], isLoading } = useQuery("friends", getFriendList);
+  const { data: friends = [], isLoading } = useQuery("friends", getFriendList, {
+    enabled: isLoggedIn
+  });
 
   const addFriendMutation = useMutation(
     (friendId: string) => addFriend(friendId),
