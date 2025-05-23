@@ -16,6 +16,9 @@ const authSlice = createSlice({
   reducers: {
     setUserId: (state, action: PayloadAction<string>) => {
       state.userId = action.payload;
+    },
+    removeUserId: (state) => {
+      state.userId = null;
     }
   }
 });
@@ -24,6 +27,6 @@ const persistConfig = {
   key: "auth",
   storage
 };
-export const { setUserId } = authSlice.actions;
+export const { setUserId, removeUserId } = authSlice.actions;
 const persistedAuthReducer = persistReducer(persistConfig, authSlice.reducer);
 export default persistedAuthReducer;
