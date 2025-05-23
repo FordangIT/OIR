@@ -1,9 +1,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react"; // lucide-react 아이콘 라이브러리 추천
+import LogoutButton from "./LogoutButton";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/redux/store";
 
 export default function Toolbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const userId = useSelector((state: RootState) => state.auth.userId);
 
   return (
     <>
@@ -25,9 +29,13 @@ export default function Toolbar() {
           <button onClick={() => setIsOpen(false)}>✕</button>
         </div>
         <nav className="flex flex-col gap-4 px-6">
-          <Link href="/login" onClick={() => setIsOpen(false)}>
-            로그인 / 회원가입
-          </Link>
+          {userId ? (
+            <LogoutButton />
+          ) : (
+            <Link href="/login" onClick={() => setIsOpen(false)}>
+              로그인 / 회원가입
+            </Link>
+          )}
           <Link href="/contact" onClick={() => setIsOpen(false)}>
             문의하기
           </Link>

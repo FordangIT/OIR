@@ -11,7 +11,7 @@ export default function LogoutButton() {
   const logoutMutation = useMutation(logout, {
     onSuccess: () => {
       dispatch(removeUserId());
-      router.push("/login");
+      router.push("/");
     },
     onError: (error) => {
       console.error("Logout failed", error);
@@ -22,7 +22,7 @@ export default function LogoutButton() {
   return (
     <button
       onClick={() => logoutMutation.mutate()}
-      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+      className="flex justify-start"
     >
       로그아웃
     </button>
